@@ -1,0 +1,84 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Scene from '../../../components/Scene.astro';
+import categories from '../../../data/categories.json';
+import { products } from '../../../data/products';
+export function getStaticPaths() { return categories.map((category) => ({ params: { slug: category.slug }, props: { category } })); }
+const { category } = Astro.props;
+const items = products.filter((p) => p.cat === category.slug);
+const others = categories.filter((c) => c.slug !== category.slug);
+---
+<Layout title={`${category.name} | CatDecal.vn`} description={category.desc} active="products">
+  <header class="page-hero page-hero--split">
+    <div class="wrap">
+      <div class="copy">
+        <nav class="crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a><span aria-hidden="true">/</span><a href="/san-pham/">Sản phẩm mẫu</a><span aria-hidden="true">/</span><span>{category.name}</span></nav>
+        <span class="eyebrow">Danh mục · {items.length} mẫu</span>
+        <h1 style="max-width: 16ch">{category.name}</h1>
+        <p class="lead">{category.desc} Các mẫu dưới đây là ví dụ thiết kế sẵn; giá mẫu sẽ hiển thị khi chọn kích thước ở trang chi tiết.</p>
+      </div>
+      <div class="frame"><Scene scene={category.scene} ink={category.ink} label={category.sample} /></div>
+    </div>
+  </header>
+
+  <section class="section--tight" style="padding: 56px 0 24px">
+    <div class="wrap">
+      <div class="catalog-toolbar" data-product-filter>
+        <label class="filter-field">Tìm mẫu <input id="catalog-search" type="search" placeholder="Tên mẫu decal..." aria-label="Tìm sản phẩm" /></label>
+        <label class="filter-field">Hiển thị <select id="catalog-type" aria-label="Lọc sản phẩm"><option value="all">Tất cả</option><option value="featured">Nổi bật</option><option value="sale">Đang giảm giá</option></select></label>
+        <label class="filter-field">Sắp xếp <select id="catalog-sort" aria-label="Sắp xếp sản phẩm"><option value="default">Mặc định</option><option value="price-asc">Giá tăng dần</option><option value="price-desc">Giá giảm dần</option></select></label>
+      </div>
+      <p id="catalog-empty" class="muted" hidden>Không tìm thấy sản phẩm phù hợp.</p>
+      <div class="grid grid--4 product-list-grid" id="catalog-products">
+        {items.map((p) => (
+          <a class="card card--link p-card" href={p.href} data-name={p.name.toLocaleLowerCase('vi-VN')} data-featured={String(p.featured)} data-sale={String(p.salePercent > 0)} data-price={String(p.samplePrices[0])}>
+            <div class="media"><Scene scene={p.scene} ink={p.ink} label={p.sample} />{p.salePercent > 0 && <span class="product-badge product-badge--sale card-badge">−{p.salePercent}%</span>}{p.featured && <span class="product-badge product-badge--featured card-badge card-badge--second">Nổi bật</span>}</div>
+            <div class="p-body">
+              <h3>{p.name}</h3>
+              <p class="p-desc">{p.desc}</p><p class="catalog-price">Từ {new Intl.NumberFormat('vi-VN').format(Math.round(p.samplePrices[0] * (100-p.salePercent)/100/1000)*1000)} ₫ <small>· Giá mẫu</small></p>
+              <div class="p-foot"><span>Xem mẫu & lựa chọn</span><span class="p-go" aria-hidden="true">→</span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight" style="padding: 40px 0 96px">
+    <div class="wrap stack stack-6" style="gap: 48px">
+      <div class="aside-note">
+        <div><b style="font-size: 18px">Không tìm thấy nội dung phù hợp?</b><p style="margin-top: 4px">CatDecal nhận cắt theo thiết kế riêng của bạn.</p></div>
+        <a class="btn btn--dark" href="/dich-vu/#yeu-cau">Gửi file nhận báo giá <span aria-hidden="true">↗</span></a>
+      </div>
+      <div>
+        <div class="sec-head" style="margin-bottom: 24px"><div><span class="eyebrow">Danh mục khác</span></div></div>
+        <div class="tag-links">
+          {others.map((c) => (<a href={'/san-pham/danh-muc/' + c.slug + '/'}>{c.name}</a>))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const grid = document.querySelector('#catalog-products');
+  const search = document.querySelector('#catalog-search');
+  const type = document.querySelector('#catalog-type');
+  const sort = document.querySelector('#catalog-sort');
+  const empty = document.querySelector('#catalog-empty');
+  if (grid && search instanceof HTMLInputElement && type instanceof HTMLSelectElement && sort instanceof HTMLSelectElement) {
+    const cards = [...grid.querySelectorAll('.p-card')];
+    const apply = () => {
+      const q = search.value.trim().toLocaleLowerCase('vi-VN');
+      const visible = cards.filter(card => {
+        const ok = (!q || (card.dataset.name || '').includes(q)) && (type.value === 'all' || card.dataset[type.value] === 'true');
+        card.hidden = !ok;
+        return ok;
+      });
+      visible.sort((a,b) => sort.value === 'price-asc' ? Number(a.dataset.price)-Number(b.dataset.price) : sort.value === 'price-desc' ? Number(b.dataset.price)-Number(a.dataset.price) : cards.indexOf(a)-cards.indexOf(b));
+      visible.forEach(card => grid.appendChild(card));
+      if (empty) empty.hidden = visible.length > 0;
+    };
+    [search,type,sort].forEach(el => el.addEventListener('input',apply));
+  }
+</script>

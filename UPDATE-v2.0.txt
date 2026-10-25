@@ -1,0 +1,8 @@
+CatDecal v2.0 - làm mới giao diện toàn bộ
+- Hệ thiết kế mới (src/styles/global.css): nền kem, vàng tươi, nút kiểu sticker, đường cắt nét đứt.
+- Viết lại: Header, Footer, Scene, trang chủ, sản phẩm, danh mục, dịch vụ, vật liệu, giới thiệu, blog, 404.
+- Sửa lỗi bộ lọc danh mục ở trang chủ (id cũ không khớp slug sản phẩm).
+- Không đổi: dữ liệu JSON, functions/api/bao-gia.js, worker, wrangler, _redirects, thông tin liên hệ.
+- Còn các chỗ [ngoặc vuông] cần bạn điền (giá, máy cắt, kích thước tối thiểu...).
+
+v2.1: phối màu theo phong cách cricut.com (nền trắng, xanh lá #00874A/#00A651, nút bo tròn phẳng, bỏ mũi tên và bóng đổ cứng). Chỉ đổi: src/styles/global.css, src/components/Header.astro, src/layouts/Layout.astro và một số nút trong src/pages.

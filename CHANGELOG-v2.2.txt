@@ -1,0 +1,7 @@
+CatDecal v2.2 — màu nhấn vàng + font Wix Madefor Text
+- Nền toàn website giữ trắng, các vùng phụ nhạt.
+- Màu vàng #F5C518 chỉ dùng cho nút, nhãn, điều hướng và điểm nhấn.
+- Xóa màu xanh lá trong hệ thống giao diện v2.1.
+- Font Wix Madefor Text, hỗ trợ chữ tiếng Việt qua Google Fonts.
+- Không thay đổi nội dung và cấu trúc các trang.
+- Build: npm install && npm run build

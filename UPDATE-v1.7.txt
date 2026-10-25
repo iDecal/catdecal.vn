@@ -1,0 +1,18 @@
+CatDecal v1.7 — Giao diện vang-den sach, menu mobile
+
+Chi can upload/ghi de cac file sau theo dung duong dan tren GitHub:
+src/components/Header.astro
+src/styles/global.css
+src/components/Footer.astro
+src/components/Scene.astro
+src/pages/404.astro
+src/pages/blog/chon-chat-lieu.astro
+src/pages/blog/dan-decal-kinh.astro
+src/pages/dich-vu.astro
+src/pages/gioi-thieu.astro
+src/pages/index.astro
+src/pages/san-pham/[slug].astro
+src/pages/vat-lieu.astro
+
+Không cần cập nhật JSON sản phẩm, API hay cấu hình Cloudflare.
+Chạy npm run build để xác nhận trước khi triển khai.

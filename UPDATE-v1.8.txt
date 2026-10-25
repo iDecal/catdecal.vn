@@ -1,0 +1,23 @@
+CATDECAL V1.8 – THÊM LIÊN HỆ VÀ CHÍNH SÁCH
+
+GHI ĐÈ (4 file):
+src/components/Header.astro
+src/components/Footer.astro
+src/layouts/Layout.astro
+src/styles/global.css
+
+TẠO MỚI (8 file):
+src/components/PolicyPage.astro
+src/pages/lien-he.astro
+src/pages/chinh-sach-bao-hanh.astro
+src/pages/chinh-sach-doi-tra.astro
+src/pages/chinh-sach-van-chuyen.astro
+src/pages/chinh-sach-thanh-toan.astro
+src/pages/chinh-sach-bao-mat.astro
+src/pages/dieu-khoan-su-dung.astro
+
+CHÚ Ý TRƯỚC KHI CÔNG BỐ:
+- Nội dung chính sách là bản dự thảo, cần xác nhận các điều kiện bảo hành, đổi trả, giao hàng, thanh toán và bảo mật theo vận hành thực tế và pháp luật hiện hành.
+- Chưa có địa chỉ cửa hàng cụ thể, tên pháp nhân/mã số thuế và giờ hoạt động: không tự thêm các thông tin này.
+- Trang liên hệ sử dụng gọi điện/email; không có form liên hệ giả hoặc gửi dữ liệu chưa cấu hình.
+- Cloudflare Pages: build npm run build, output dist.

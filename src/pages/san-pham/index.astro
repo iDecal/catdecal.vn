@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Scene from '../../components/Scene.astro';
+import categories from '../../data/categories.json';
+import { products } from '../../data/products';
+---
+<Layout title="Danh mục decal thiết kế sẵn | CatDecal.vn" description="Khám phá các danh mục decal dán kính, trang trí, decal xe và ký hiệu; nhiều mẫu để lựa chọn." active="products">
+  <header class="page-hero">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a><span aria-hidden="true">/</span><span>Sản phẩm mẫu</span></nav>
+      <span class="eyebrow">Bộ sưu tập decal</span>
+      <h1>Chọn danh mục, khám phá nhiều mẫu decal</h1>
+      <p class="lead">Các mẫu thiết kế sẵn được chia theo mục đích sử dụng. Mở một danh mục để xem các mẫu và chọn màu, kích thước phù hợp. Cần làm nội dung riêng? <a href="/dich-vu/" style="font-weight: 800; text-decoration-color: var(--yellow-deep)">Xem dịch vụ cắt theo yêu cầu</a>.</p>
+    </div>
+  </header>
+  <section class="section--tight" style="padding: 48px 0 96px">
+    <div class="wrap">
+      <div class="grid grid--catalog product-catalog-grid">
+        {categories.map((c) => (
+          <a class="card card--link c-card" href={'/san-pham/danh-muc/' + c.slug + '/'}>
+            <div class="media"><span class="pill pill--yellow">{c.count} mẫu tham khảo</span><Scene scene={c.scene} ink={c.ink} label={c.sample} /></div>
+            <div class="c-body">
+              <h2 class="h3" style="font-size: 20px">{c.name}</h2>
+              <p class="c-desc">{c.desc}</p>
+              <div class="c-foot"><span>Xem tất cả mẫu</span><span class="c-go" aria-hidden="true">→</span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section--tight" style="padding: 0 0 88px">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow">Bộ lọc sản phẩm</span><h2 class="h2">Tất cả mẫu decal</h2></div></div>
+      <div class="catalog-toolbar">
+        <label class="filter-field">Danh mục <select id="all-category"><option value="all">Tất cả danh mục</option>{categories.map(c => <option value={c.slug}>{c.name}</option>)}</select></label>
+        <label class="filter-field">Loại mẫu <select id="all-type"><option value="all">Tất cả</option><option value="featured">Nổi bật</option><option value="sale">Đang giảm giá</option></select></label>
+        <label class="filter-field">Tìm kiếm <input id="all-search" type="search" placeholder="Nhập tên decal..." /></label>
+      </div>
+      <p id="all-empty" class="muted" hidden>Không có mẫu phù hợp với bộ lọc.</p>
+      <div id="all-products" class="grid grid--4 product-list-grid">
+        {products.map(p => <a href={p.href} class="card card--link p-card" data-category={p.cat} data-name={p.name.toLocaleLowerCase('vi-VN')} data-featured={String(p.featured)} data-sale={String(p.salePercent > 0)}>
+          <div class="media"><Scene scene={p.scene} ink={p.ink} label={p.sample} />{p.salePercent > 0 && <span class="product-badge product-badge--sale card-badge">−{p.salePercent}%</span>}{p.featured && <span class="product-badge product-badge--featured card-badge card-badge--second">Nổi bật</span>}</div>
+          <div class="p-body"><h3>{p.name}</h3><p class="catalog-price">Từ {new Intl.NumberFormat('vi-VN').format(Math.round(p.samplePrices[0] * (100-p.salePercent)/100/1000)*1000)} ₫ <small>· Giá mẫu</small></p><div class="p-foot"><span>Xem chi tiết</span><span class="p-go" aria-hidden="true">→</span></div></div>
+        </a>)}
+      </div>
+    </div>
+  </section>
+</Layout>
+<script>
+  const grid = document.querySelector('#all-products');
+  const category = document.querySelector('#all-category');
+  const type = document.querySelector('#all-type');
+  const search = document.querySelector('#all-search');
+  const empty = document.querySelector('#all-empty');
+  if (grid && category instanceof HTMLSelectElement && type instanceof HTMLSelectElement && search instanceof HTMLInputElement) {
+    const cards = [...grid.querySelectorAll('.p-card')];
+    const apply = () => {
+      let n = 0;
+      cards.forEach(card => {
+        const ok = (category.value === 'all' || card.dataset.category === category.value) && (type.value === 'all' || card.dataset[type.value] === 'true') && (card.dataset.name || '').includes(search.value.trim().toLocaleLowerCase('vi-VN'));
+        card.hidden = !ok;
+        if (ok) n++;
+      });
+      if (empty) empty.hidden = n > 0;
+    };
+    [category,type,search].forEach(el => el.addEventListener('input',apply));
+  }
+</script>

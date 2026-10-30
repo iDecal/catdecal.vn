@@ -1,0 +1,173 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Scene from '../components/Scene.astro';
+import { products } from '../data/products';
+import servicesData from '../data/services.json';
+import categories from '../data/categories.json';
+
+const catName = Object.fromEntries(categories.map((c) => [c.slug, c.name]));
+const tabs = [{ id: 'all', label: 'Tất cả' }, ...categories.map((c) => ({ id: c.slug, label: c.name }))].map((x) => ({
+  ...x,
+  cls: x.id === 'all' ? 'chip on' : 'chip'
+}));
+const featuredProducts = categories.flatMap((category) => products.filter((product) => product.cat === category.slug).slice(0, 2));
+const steps = [
+  { no: '1', title: 'Gửi yêu cầu', desc: 'Cho biết nội dung, kích thước, chất liệu, số lượng.' },
+  { no: '2', title: 'Nhận báo giá và mẫu', desc: 'Duyệt bản thiết kế và giá trước khi cắt.' },
+  { no: '3', title: 'Cắt và kiểm tra', desc: 'Cắt bằng máy, bóc nền, kiểm tra từng nét.' },
+  { no: '4', title: 'Giao hàng', desc: 'Đóng gói phẳng kèm lớp định hình, gửi toàn quốc.' }
+];
+---
+<Layout title="Dịch vụ cắt decal theo yêu cầu tại TP.HCM | CatDecal.vn" description="Chuyên cắt decal theo yêu cầu tại TP.HCM, giao hàng toàn quốc: chữ dán kính, tem xe, chữ dán tường, tên cá nhân. Gửi file nhận báo giá." active="home">
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Decal cắt chữ · Decal cắt hình</span>
+        <h1 class="h1">Cắt chuẩn từng nét.<br /><span class="hl">Dán là đẹp.</span></h1>
+        <p class="lead">Chuyên cắt decal theo yêu cầu tại TP.HCM, giao hàng toàn quốc: chữ, logo, hoa văn, tem xe, chữ dán kính. Gửi file hoặc ý tưởng, bên mình cắt và gửi đến tận nơi.</p>
+        <div class="row">
+          <a class="btn btn--primary" href="/dich-vu/#yeu-cau">Gửi file nhận báo giá <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost" href="/san-pham/">Xem mẫu thiết kế sẵn</a>
+        </div>
+        <ul class="hero-badges">
+          <li><svg aria-hidden="true" width="20" height="20" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#18150F"/><path d="M6 11.5 L9.5 15 L16 8" stroke="#FFC400" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Máy cắt của Nhật</li>
+          <li><svg aria-hidden="true" width="20" height="20" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#18150F"/><path d="M6 11.5 L9.5 15 L16 8" stroke="#FFC400" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Có lớp định hình dễ dán</li>
+          <li><svg aria-hidden="true" width="20" height="20" viewBox="0 0 22 22"><circle cx="11" cy="11" r="11" fill="#18150F"/><path d="M6 11.5 L9.5 15 L16 8" stroke="#FFC400" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Video hướng dẫn</li>
+        </ul>
+      </div>
+      <div class="hero-art">
+        <span class="ring" aria-hidden="true"></span>
+        <span class="tag tag--a">✂ Cắt đúng từng nét</span>
+        <div class="panel">
+          <div class="shot shot--wide"><Scene scene="kinh" ink="#FFFFFF" label="MỞ CỬA" /></div>
+          <div class="shot"><Scene scene="xe" ink="#FFC400" label="GARAGE" /></div>
+          <div class="shot"><Scene scene="ten" ink="#FFC400" label="Minh" /></div>
+        </div>
+        <span class="tag tag--b">Giao toàn quốc</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dải lợi ích -->
+  <section class="strip" aria-label="Điểm nổi bật">
+    <div class="wrap strip-grid">
+      <div class="strip-item"><span class="ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 14M19 5L5 19" stroke-dasharray="3 3.4"/></svg></span><div><b>Cắt theo file hoặc ý tưởng</b><span>AI, SVG, PDF, CDR, EPS, DXF</span></div></div>
+      <div class="strip-item"><span class="ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 13 9 5 9-5"/></svg></span><div><b>Có lớp định hình</b><span>Chữ giữ đúng vị trí khi dán</span></div></div>
+      <div class="strip-item"><span class="ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span><div><b>Duyệt mẫu trước khi cắt</b><span>Báo giá rõ ràng, xác nhận rồi mới làm</span></div></div>
+      <div class="strip-item"><span class="ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span><div><b>Giao hàng toàn quốc</b><span>Đóng gói phẳng, nhận tại TP.HCM</span></div></div>
+    </div>
+  </section>
+
+  <!-- Dịch vụ -->
+  <section class="section" id="dich-vu">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Gia công theo yêu cầu</span>
+          <h2 class="h2">Dịch vụ cắt decal</h2>
+          <p>Bạn có file hoặc ý tưởng riêng? Chọn dịch vụ phù hợp rồi gửi yêu cầu để nhận báo giá. Có thể lựa chọn decal màu trơn, decal mờ dán kính, phản quang hoặc ánh kim tùy bề mặt và mục đích sử dụng.</p>
+        </div>
+        <a class="link-arrow" href="/dich-vu/">Xem tất cả dịch vụ →</a>
+      </div>
+      <div class="grid grid--4">
+        {servicesData.map((s, i) => (
+          <a class="card card--link c-card service-card" href={'/dich-vu/' + s.slug + '/'}>
+            <div class="media"><span class="num-badge">0{i + 1}</span><Scene scene={s.scene} ink={s.ink} label={s.sample} /></div>
+            <div class="c-body">
+              <h3>{s.name}</h3>
+              <p class="c-desc">{s.short}</p>
+              <div class="c-foot"><span>Xem chi tiết</span><span class="c-go" aria-hidden="true">↗</span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sản phẩm -->
+  <section class="section" id="san-pham">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Sản phẩm mẫu</span>
+          <h2 class="h2">Mẫu decal thiết kế sẵn</h2>
+          <p>Bạn muốn dán decal lên kính cửa hàng, tường, xe hay dùng làm ký hiệu? Chọn danh mục bên dưới để xem các mẫu phù hợp. Đây là một số thiết kế tiêu biểu; xem trang Sản phẩm để khám phá thêm.</p>
+        </div>
+        <a class="link-arrow" href="/san-pham/">Xem theo danh mục →</a>
+      </div>
+      <div class="chips" role="group" aria-label="Lọc theo danh mục" style="margin-bottom: 28px">
+        {tabs.map((tab) => (
+          <button type="button" data-chip data-cat={tab.id} class={tab.cls} aria-pressed={tab.id === 'all' ? 'true' : 'false'}>{tab.label}</button>
+        ))}
+      </div>
+      <div class="grid grid--4 home-product-grid">
+        {featuredProducts.map((p) => (
+          <a data-card data-cat={p.cat} class="card card--link p-card" href={p.href}>
+            <div class="media"><Scene scene={p.scene} ink={p.ink} label={p.sample} /></div>
+            <div class="p-body">
+              <h3>{p.name}</h3>
+              <p class="p-desc">{p.desc}</p>
+              <div class="p-foot"><span>Xem thêm</span><span class="p-go" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quy trình + máy cắt -->
+  <section class="section section--ink" id="quy-trinh">
+    <div class="wrap stack stack-6" style="gap: 56px">
+      <div class="split">
+        <div class="stack stack-5">
+          <span class="eyebrow">Quy trình</span>
+          <h2 class="h2">Cắt decal theo yêu cầu, chuẩn từng chi tiết</h2>
+          <p class="lead">Bạn có sẵn file hoặc chỉ có ý tưởng, đều nhận được. Cắt bằng máy của Nhật, từ một chiếc đến số lượng lớn, kèm lớp định hình để dán dễ.</p>
+          <div class="row"><a class="btn btn--primary" href="/dich-vu/#yeu-cau">Gửi file đặt cắt <span aria-hidden="true">↗</span></a><a class="btn btn--light" href="/gioi-thieu/">Vì sao chọn chúng tôi</a></div>
+        </div>
+        <div class="frame frame--yellow"><Scene scene="may" ink="#FFC400" label="Aa" /></div>
+      </div>
+      <ol class="steps" style="list-style: none; padding: 0; margin: 0">
+        {steps.map((st) => (
+          <li class="step"><span class="n">{st.no}</span><h3>{st.title}</h3><p>{st.desc}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="eyebrow">Hướng dẫn</span><h2 class="h2">Kinh nghiệm dùng decal</h2></div>
+        <a class="link-arrow" href="/blog/">Xem tất cả bài viết →</a>
+      </div>
+      <div class="grid grid--2">
+        <a class="card card--link post-card" href="/blog/dan-decal-kinh/">
+          <div class="media"><Scene scene="kinh" ink="#FFFFFF" label="MỞ CỬA" /></div>
+          <div class="p-body stack stack-3"><span class="kicker">Hướng dẫn</span><h3>Cách dán decal chữ lên kính cửa hàng không bị bọt khí</h3><span class="link-arrow" style="align-self: flex-start">Đọc bài →</span></div>
+        </a>
+        <a class="card card--link post-card" href="/blog/chon-chat-lieu/">
+          <div class="media"><Scene scene="mau" /></div>
+          <div class="p-body stack stack-3"><span class="kicker">Chất liệu</span><h3>Chọn chất liệu decal cắt chữ: trơn, ánh kim, phản quang hay mờ?</h3><span class="link-arrow" style="align-self: flex-start">Đọc bài →</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+<script>
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-chip]'));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card]'));
+  function setCat(c: string) {
+    chips.forEach((b) => {
+      const on = b.dataset.cat === c;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    cards.forEach((x) => { x.hidden = !(c === 'all' || x.dataset.cat === c); });
+  }
+  chips.forEach((b) => b.addEventListener('click', () => setCat(b.dataset.cat || 'all')));
+</script>
